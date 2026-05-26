@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = '10.9'
   s.requires_arc = true
   s.header_mappings_dir = 'toxcore'
-  s.source_files = 'toxcore/toxcore/*.{m,h}', 'toxcore/toxencryptsave/*.{m,h}', 'toxcore/toxav/*.{m,h}', 'toxcore/third_party/cmp/*.{m,h}'
+  s.source_files = 'toxcore/toxcore/*.{m,h}', 'toxcore/toxcore/events/*.{m,h}', 'toxcore/toxencryptsave/*.{m,h}', 'toxcore/toxav/*.{m,h}', 'toxcore/third_party/cmp/*.{m,h}'
   s.dependency 'libopus-patched-config', '1.1'
   s.dependency 'libsodium', '~> 1.0.1'
   s.ios.vendored_frameworks = 'ios/vpx.framework'
