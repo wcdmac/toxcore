@@ -43,34 +43,23 @@ if [ -d "$GIT_PATH/toxcore/events" ]; then
         mv -v "$file" "${file%.c}.m"
     done
 fi
-echo "Copying third_party/cmp directory"
+echo "Copying third_party/cmp directory into toxcore/toxcore/third_party/cmp"
 if [ -d "$GIT_PATH/third_party/cmp" ]; then
-    mkdir -p $OUTPUT/third_party/cmp
-    cp -rv $GIT_PATH/third_party/cmp/* $OUTPUT/third_party/cmp/
-    for file in $OUTPUT/third_party/cmp/*.c; do
+    mkdir -p $OUTPUT/toxcore/third_party/cmp
+    cp -rv $GIT_PATH/third_party/cmp/* $OUTPUT/toxcore/third_party/cmp/
+    for file in $OUTPUT/toxcore/third_party/cmp/*.c; do
         mv -v "$file" "${file%.c}.m"
     done
 fi
-echo "Replacing <opus.h> with \"opus.h\" in all .h and .m files"
+echo "Replacing header includes for CocoaPods compatibility"
 find $OUTPUT -name "*.h" -o -name "*.m" | while read file; do
     sed -i '' 's/#include <opus.h>/#include "opus.h"/g' "$file" 2>/dev/null || true
-done
-echo "Replacing <sodium.h> with \"sodium.h\" in all .h and .m files"
-find $OUTPUT -name "*.h" -o -name "*.m" | while read file; do
     sed -i '' 's/#include <sodium.h>/#include "sodium.h"/g' "$file" 2>/dev/null || true
-done
-echo "Replacing <vpx/vpx_decoder.h> with \"vpx/vpx_decoder.h\" in all .h and .m files"
-find $OUTPUT -name "*.h" -o -name "*.m" | while read file; do
     sed -i '' 's/#include <vpx\/vpx_decoder.h>/#include "vpx\/vpx_decoder.h"/g' "$file" 2>/dev/null || true
     sed -i '' 's/#include <vpx\/vpx_encoder.h>/#include "vpx\/vpx_encoder.h"/g' "$file" 2>/dev/null || true
-done
-echo "Replacing <cmp/cmp.h> with \"cmp/cmp.h\" in all .h and .m files"
-find $OUTPUT -name "*.h" -o -name "*.m" | while read file; do
-    sed -i '' 's/#include <cmp\/cmp.h>/#include "cmp\/cmp.h"/g' "$file" 2>/dev/null || true
-    sed -i '' 's/#include <cmp\/msgpack.h>/#include "cmp\/msgpack.h"/g' "$file" 2>/dev/null || true
-done
-echo "Fixing events_alloc.h include path"
-find $OUTPUT -name "*.m" -o -name "*.h" | while read file; do
-    sed -i '' 's/#include "events\/events_alloc.h"/#include "toxcore\/events\/events_alloc.h"/g' "$file" 2>/dev/null || true
+    sed -i '' 's/#include <cmp\/cmp.h>/#include "cmp.h"/g' "$file" 2>/dev/null || true
+    sed -i '' 's/#include <cmp\/msgpack.h>/#include "msgpack.h"/g' "$file" 2>/dev/null || true
+    sed -i '' "s/#include \"..\/third_party\/cmp\/cmp.h\"/#include \"cmp.h\"/g" "$file" 2>/dev/null || true
+    sed -i '' "s/#include \"events\/events_alloc.h\"/#include \"toxcore\/events\/events_alloc.h\"/g" "$file" 2>/dev/null || true
 done
 echo "Done preparing toxcore with Group v2 support"
