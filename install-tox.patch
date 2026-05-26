@@ -1,5 +1,4 @@
 diff --git a/toxcore/toxav/audio.h b/toxcore/toxav/audio.h
-index 5f9d7f7..e4b8f61 100644
 --- a/toxcore/toxav/audio.h
 +++ b/toxcore/toxav/audio.h
 @@ -25,7 +25,7 @@
@@ -10,48 +9,36 @@ index 5f9d7f7..e4b8f61 100644
 +#include "opus.h"
  #include <pthread.h>
  
- #define AUDIO_JITTERBUFFER_COUNT 3
-diff --git a/toxcore/toxav/groupav.h b/toxcore/toxav/groupav.h
-index 1929b17..b791111 100644
+ diff --git a/toxcore/toxav/groupav.h b/toxcore/toxav/groupav.h
 --- a/toxcore/toxav/groupav.h
 +++ b/toxcore/toxav/groupav.h
 @@ -21,7 +21,7 @@
  #include "../toxcore/group.h"
  
- /* Audio encoding/decoding */
 -#include <opus.h>
 +#include "opus.h"
  
- #define GROUP_AUDIO_PACKET_ID 192
- 
-diff --git a/toxcore/toxcore/crypto_core.m b/toxcore/toxcore/crypto_core.m
-index 2e89896..5c4bb70 100644
+ diff --git a/toxcore/toxcore/crypto_core.m b/toxcore/toxcore/crypto_core.m
 --- a/toxcore/toxcore/crypto_core.m
 +++ b/toxcore/toxcore/crypto_core.m
 @@ -35,7 +35,7 @@
  
  #ifndef VANILLA_NACL
- /* We use libsodium by default. */
 -#include <sodium.h>
 +#include "sodium.h"
  #else
  #include <crypto_box.h>
- #include <crypto_hash_sha256.h>
-diff --git a/toxcore/toxcore/network.m b/toxcore/toxcore/network.m
-index 386f8c1..b441273 100644
+ diff --git a/toxcore/toxcore/network.m b/toxcore/toxcore/network.m
 --- a/toxcore/toxcore/network.m
 +++ b/toxcore/toxcore/network.m
-@@ -457,7 +457,7 @@ void networking_poll(Networking_Core *net, void *userdata)
+@@ -457,7 +457,7 @@
  
  #ifndef VANILLA_NACL
- /* Used for sodium_init() */
 -#include <sodium.h>
 +#include "sodium.h"
  #endif
  
- static uint8_t at_startup_ran = 0;
-diff --git a/toxcore/toxencryptsave/toxencryptsave.m b/toxcore/toxencryptsave/toxencryptsave.m
-index bd56e78..9e3413e 100644
+ diff --git a/toxcore/toxencryptsave/toxencryptsave.m b/toxcore/toxencryptsave/toxencryptsave.m
 --- a/toxcore/toxencryptsave/toxencryptsave.m
 +++ b/toxcore/toxencryptsave/toxencryptsave.m
 @@ -36,7 +36,7 @@
@@ -62,17 +49,21 @@ index bd56e78..9e3413e 100644
 +#include "sodium.h"
  #endif
  
- #include <string.h>
-diff --git a/toxcore/toxcore/crypto_core_mem.m b/toxcore/toxcore/crypto_core_mem.m
-index 8d46998..156eea9 100644
+ diff --git a/toxcore/toxcore/crypto_core_mem.m b/toxcore/toxcore/crypto_core_mem.m
 --- a/toxcore/toxcore/crypto_core_mem.m
 +++ b/toxcore/toxcore/crypto_core_mem.m
 @@ -22,7 +22,7 @@
  
  #ifndef VANILLA_NACL
- /* We use libsodium by default. */
 -#include <sodium.h>
 +#include "sodium.h"
  #else
- #if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
- #include <windows.h>
+ diff --git a/toxcore/toxcore/group_chats.m b/toxcore/toxcore/group_chats.m
+--- a/toxcore/toxcore/group_chats.m
++++ b/toxcore/toxcore/group_chats.m
+@@ -22,7 +22,7 @@
+ 
+ #ifndef VANILLA_NACL
+-#include <sodium.h>
++#include "sodium.h"
+ #else
