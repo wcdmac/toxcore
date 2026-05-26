@@ -36,5 +36,17 @@ remove_files_matching "toxcore/**/*.api.h"
 remove_files_matching "toxav/**/*.bazel"
 remove_files_matching "toxav/**/*_test.cc"
 remove_files_matching "toxencryptsave/**/*.bazel"
-echo "Applying install-tox.patch"
-git apply install-tox.patch
+echo "Replacing <opus.h> with \"opus.h\" in all .h and .m files"
+find $OUTPUT -name "*.h" -o -name "*.m" | while read file; do
+    sed -i '' 's/#include <opus.h>/#include "opus.h"/g' "$file" 2>/dev/null || true
+done
+echo "Replacing <sodium.h> with \"sodium.h\" in all .h and .m files"
+find $OUTPUT -name "*.h" -o -name "*.m" | while read file; do
+    sed -i '' 's/#include <sodium.h>/#include "sodium.h"/g' "$file" 2>/dev/null || true
+done
+echo "Replacing <vpx/vpx_decoder.h> with \"vpx/vpx_decoder.h\" in all .h and .m files"
+find $OUTPUT -name "*.h" -o -name "*.m" | while read file; do
+    sed -i '' 's/#include <vpx\/vpx_decoder.h>/#include "vpx\/vpx_decoder.h"/g' "$file" 2>/dev/null || true
+    sed -i '' 's/#include <vpx\/vpx_encoder.h>/#include "vpx\/vpx_encoder.h"/g' "$file" 2>/dev/null || true
+done
+echo "Done preparing toxcore"
