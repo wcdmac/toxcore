@@ -35,6 +35,22 @@ remove_files_matching "toxcore/**/*.api.h"
 remove_files_matching "toxav/**/*.bazel"
 remove_files_matching "toxav/**/*_test.cc"
 remove_files_matching "toxencryptsave/**/*.bazel"
+echo "Copying events directory"
+if [ -d "$GIT_PATH/toxcore/events" ]; then
+    mkdir -p $OUTPUT/toxcore/events
+    cp -rv $GIT_PATH/toxcore/events/* $OUTPUT/toxcore/events/
+    for file in $OUTPUT/toxcore/events/*.c; do
+        mv -v "$file" "${file%.c}.m"
+    done
+fi
+echo "Copying third_party/cmp directory"
+if [ -d "$GIT_PATH/third_party/cmp" ]; then
+    mkdir -p $OUTPUT/third_party/cmp
+    cp -rv $GIT_PATH/third_party/cmp/* $OUTPUT/third_party/cmp/
+    for file in $OUTPUT/third_party/cmp/*.c; do
+        mv -v "$file" "${file%.c}.m"
+    done
+fi
 echo "Replacing <opus.h> with \"opus.h\" in all .h and .m files"
 find $OUTPUT -name "*.h" -o -name "*.m" | while read file; do
     sed -i '' 's/#include <opus.h>/#include "opus.h"/g' "$file" 2>/dev/null || true
@@ -53,12 +69,8 @@ find $OUTPUT -name "*.h" -o -name "*.m" | while read file; do
     sed -i '' 's/#include <cmp\/cmp.h>/#include "cmp\/cmp.h"/g' "$file" 2>/dev/null || true
     sed -i '' 's/#include <cmp\/msgpack.h>/#include "cmp\/msgpack.h"/g' "$file" 2>/dev/null || true
 done
-echo "Copying cmp library from third_party"
-if [ -d "$GIT_PATH/third_party/cmp" ]; then
-    mkdir -p $OUTPUT/third_party/cmp
-    cp -rv $GIT_PATH/third_party/cmp/* $OUTPUT/third_party/cmp/
-    for file in $OUTPUT/third_party/cmp/*.c; do
-        mv -v "$file" "${file%.c}.m"
-    done
-fi
+echo "Fixing events_alloc.h include path"
+find $OUTPUT -name "*.m" -o -name "*.h" | while read file; do
+    sed -i '' 's/#include "events\/events_alloc.h"/#include "toxcore\/events\/events_alloc.h"/g' "$file" 2>/dev/null || true
+done
 echo "Done preparing toxcore with Group v2 support"
