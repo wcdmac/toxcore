@@ -1,15 +1,14 @@
 #!/bin/bash
 GIT_PATH="toxcore-git"
 OUTPUT="toxcore"
-CTOXCORE_VERSION="v0.2.20"
 DIRS=(
     "toxcore"
     "toxav"
     "toxencryptsave"
 )
-echo "Cloning c-toxcore $CTOXCORE_VERSION"
+echo "Cloning JFreegman/toxcore ngc_merge branch (includes Group v2 API)"
 rm -rf $GIT_PATH
-git clone --depth 1 --branch $CTOXCORE_VERSION https://github.com/TokTok/c-toxcore.git $GIT_PATH
+git clone --depth 1 --branch ngc_merge https://github.com/JFreegman/toxcore.git $GIT_PATH
 echo "Removing old toxcore directory"
 rm -rf $OUTPUT
 mkdir $OUTPUT
@@ -49,4 +48,17 @@ find $OUTPUT -name "*.h" -o -name "*.m" | while read file; do
     sed -i '' 's/#include <vpx\/vpx_decoder.h>/#include "vpx\/vpx_decoder.h"/g' "$file" 2>/dev/null || true
     sed -i '' 's/#include <vpx\/vpx_encoder.h>/#include "vpx\/vpx_encoder.h"/g' "$file" 2>/dev/null || true
 done
-echo "Done preparing toxcore"
+echo "Replacing <cmp/cmp.h> with \"cmp/cmp.h\" in all .h and .m files"
+find $OUTPUT -name "*.h" -o -name "*.m" | while read file; do
+    sed -i '' 's/#include <cmp\/cmp.h>/#include "cmp\/cmp.h"/g' "$file" 2>/dev/null || true
+    sed -i '' 's/#include <cmp\/msgpack.h>/#include "cmp\/msgpack.h"/g' "$file" 2>/dev/null || true
+done
+echo "Copying cmp library from third_party"
+if [ -d "$GIT_PATH/third_party/cmp" ]; then
+    mkdir -p $OUTPUT/third_party/cmp
+    cp -rv $GIT_PATH/third_party/cmp/* $OUTPUT/third_party/cmp/
+    for file in $OUTPUT/third_party/cmp/*.c; do
+        mv -v "$file" "${file%.c}.m"
+    done
+fi
+echo "Done preparing toxcore with Group v2 support"
