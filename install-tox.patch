@@ -9,7 +9,7 @@ diff --git a/toxcore/toxav/audio.h b/toxcore/toxav/audio.h
 +#include "opus.h"
  #include <pthread.h>
  
- diff --git a/toxcore/toxav/groupav.h b/toxcore/toxav/groupav.h
+diff --git a/toxcore/toxav/groupav.h b/toxcore/toxav/groupav.h
 --- a/toxcore/toxav/groupav.h
 +++ b/toxcore/toxav/groupav.h
 @@ -21,7 +21,7 @@
@@ -18,7 +18,7 @@ diff --git a/toxcore/toxav/audio.h b/toxcore/toxav/audio.h
 -#include <opus.h>
 +#include "opus.h"
  
- diff --git a/toxcore/toxcore/crypto_core.m b/toxcore/toxcore/crypto_core.m
+diff --git a/toxcore/toxcore/crypto_core.m b/toxcore/toxcore/crypto_core.m
 --- a/toxcore/toxcore/crypto_core.m
 +++ b/toxcore/toxcore/crypto_core.m
 @@ -35,7 +35,7 @@
@@ -28,7 +28,7 @@ diff --git a/toxcore/toxav/audio.h b/toxcore/toxav/audio.h
 +#include "sodium.h"
  #else
  #include <crypto_box.h>
- diff --git a/toxcore/toxcore/network.m b/toxcore/toxcore/network.m
+diff --git a/toxcore/toxcore/network.m b/toxcore/toxcore/network.m
 --- a/toxcore/toxcore/network.m
 +++ b/toxcore/toxcore/network.m
 @@ -457,7 +457,7 @@
@@ -38,7 +38,7 @@ diff --git a/toxcore/toxav/audio.h b/toxcore/toxav/audio.h
 +#include "sodium.h"
  #endif
  
- diff --git a/toxcore/toxencryptsave/toxencryptsave.m b/toxcore/toxencryptsave/toxencryptsave.m
+diff --git a/toxcore/toxencryptsave/toxencryptsave.m b/toxcore/toxencryptsave/toxencryptsave.m
 --- a/toxcore/toxencryptsave/toxencryptsave.m
 +++ b/toxcore/toxencryptsave/toxencryptsave.m
 @@ -36,7 +36,7 @@
@@ -49,7 +49,7 @@ diff --git a/toxcore/toxav/audio.h b/toxcore/toxav/audio.h
 +#include "sodium.h"
  #endif
  
- diff --git a/toxcore/toxcore/crypto_core_mem.m b/toxcore/toxcore/crypto_core_mem.m
+diff --git a/toxcore/toxcore/crypto_core_mem.m b/toxcore/toxcore/crypto_core_mem.m
 --- a/toxcore/toxcore/crypto_core_mem.m
 +++ b/toxcore/toxcore/crypto_core_mem.m
 @@ -22,7 +22,7 @@
@@ -58,7 +58,7 @@ diff --git a/toxcore/toxav/audio.h b/toxcore/toxav/audio.h
 -#include <sodium.h>
 +#include "sodium.h"
  #else
- diff --git a/toxcore/toxcore/group_chats.m b/toxcore/toxcore/group_chats.m
+diff --git a/toxcore/toxcore/group_chats.m b/toxcore/toxcore/group_chats.m
 --- a/toxcore/toxcore/group_chats.m
 +++ b/toxcore/toxcore/group_chats.m
 @@ -22,7 +22,7 @@
