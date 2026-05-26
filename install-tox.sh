@@ -43,13 +43,11 @@ if [ -d "$GIT_PATH/toxcore/events" ]; then
         mv -v "$file" "${file%.c}.m"
     done
 fi
-echo "Copying third_party/cmp directory into toxcore/toxcore/third_party/cmp"
+echo "Copying cmp library files directly into toxcore/toxcore/ for flat include"
 if [ -d "$GIT_PATH/third_party/cmp" ]; then
-    mkdir -p $OUTPUT/toxcore/third_party/cmp
-    cp -rv $GIT_PATH/third_party/cmp/* $OUTPUT/toxcore/third_party/cmp/
-    for file in $OUTPUT/toxcore/third_party/cmp/*.c; do
-        mv -v "$file" "${file%.c}.m"
-    done
+    cp -v $GIT_PATH/third_party/cmp/cmp.h $OUTPUT/toxcore/toxcore/
+    cp -v $GIT_PATH/third_party/cmp/cmp.c $OUTPUT/toxcore/toxcore/
+    mv -v $OUTPUT/toxcore/toxcore/cmp.c $OUTPUT/toxcore/toxcore/cmp.m
 fi
 echo "Replacing header includes for CocoaPods compatibility"
 find $OUTPUT -name "*.h" -o -name "*.m" | while read file; do
